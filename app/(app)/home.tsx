@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { View, Text } from "react-native";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <View>
       <Text>Home</Text>

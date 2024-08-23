@@ -1,20 +1,19 @@
-import { View, Text } from "react-native";
-import { Slot, useSegments, useRouter } from "expo-router";
 import React, { useEffect } from "react";
+import { Slot, useSegments, useRouter } from "expo-router";
+import { useAuth, AuthContextProvider } from "./context/authContext";
 import "../global.css";
-import { AuthContextProvider, useAuth } from "../context/authContext";
 
-const MainLayout = () => {
+const MainLayout: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof isAuthenticated == "undefined") return;
-    const inApp = segments[0] == "(app)";
+    if (typeof isAuthenticated === "undefined") return;
+    const inApp = segments[0] === "(app)";
     if (isAuthenticated && !inApp) {
       router.replace("home");
-    } else if (isAuthenticated == false) {
+    } else if (isAuthenticated === false) {
       router.replace("signIn");
     }
   }, [isAuthenticated]);

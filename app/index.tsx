@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 
-const StartPage = () => {
+const StartPage: React.FC = () => {
   return (
     <View className="flex-1 justify-center items-center">
       <ActivityIndicator size="large" color="#4DB6AC" />
