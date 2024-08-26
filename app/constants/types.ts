@@ -8,7 +8,7 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  profile?: string;
+  profileImage?: string;
 }
 
 export interface AuthContextProps {
@@ -32,4 +32,11 @@ export interface AuthContextProviderProps {
 
 export interface CustomKeyboardViewProps {
   children: ReactNode;
+}
+
+export interface MenuItemProps {
+  text: string;
+  action: (value: any) => void;
+  value: any;
+  icon?: React.ReactNode;
 }

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Slot, useSegments, useRouter } from "expo-router";
 import { useAuth, AuthContextProvider } from "./context/authContext";
+import { MenuProvider } from "react-native-popup-menu";
 import "../global.css";
 
 const MainLayout: React.FC = () => {
@@ -10,22 +11,24 @@ const MainLayout: React.FC = () => {
 
   useEffect(() => {
     if (typeof isAuthenticated === "undefined") return;
-    const inApp = segments[0] === "(app)";
-    if (isAuthenticated && !inApp) {
+    const isAuthRoute = segments[0] === "(auth)";
+    if (isAuthenticated && isAuthRoute) {
       router.replace("/home");
-    } else if (isAuthenticated === false) {
+    } else if (isAuthenticated === false && !isAuthRoute) {
       router.replace("/signIn");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, segments]);
 
   return <Slot />;
 };
 
 const RootLayout = () => {
   return (
-    <AuthContextProvider>
-      <MainLayout />
-    </AuthContextProvider>
+    <MenuProvider>
+      <AuthContextProvider>
+        <MainLayout />
+      </AuthContextProvider>
+    </MenuProvider>
   );
 };
 

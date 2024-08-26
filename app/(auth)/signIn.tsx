@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
-import Loading from "./components/Loading";
-import CustomKeyboardView from "./components/CustomKeyboardView";
-import BackgroundBlob from "./components/BackgroundBlob";
+import CustomKeyboardView from "../components/CustomKeyboardView";
+import BackgroundBlob from "../components/BackgroundBlob";
 import {
   Text,
   View,
@@ -18,34 +17,28 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { Octicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "./context/authContext";
+import { useAuth } from "../context/authContext";
 
 const SignIn: React.FC = () => {
   const router = useRouter();
   const { login } = useAuth();
   const emailRef = useRef<string>("");
   const passwordRef = useRef<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
     if (!emailRef.current || !passwordRef.current) {
       Alert.alert("Inicia sesión", "Por favor, rellena los campos necesarios");
       return;
     }
-    setLoading(true);
     try {
       const response = await login(emailRef.current, passwordRef.current);
-      setLoading(false);
-      if (response.success) {
-        router.push("/(app)/home");
-      } else {
+      if (!response.success) {
         Alert.alert(
           "Iniciar sesión",
           response.msg || "Hubo un problema al iniciar sesión"
         );
       }
     } catch (error) {
-      setLoading(false);
       console.error("Error inesperado en el inicio de sesión:", error);
       Alert.alert(
         "Iniciar sesión",
@@ -68,7 +61,7 @@ const SignIn: React.FC = () => {
       >
         <View className="items-center">
           <Image
-            source={require("../assets/images/icon-name.png")}
+            source={require("../../assets/images/icon.png")}
             alt="Login"
             style={{ height: hp(20) }}
             resizeMode="contain"
@@ -122,29 +115,23 @@ const SignIn: React.FC = () => {
               </Text>
             </View>
             <View>
-              {loading ? (
-                <View className="flex-row justify-center">
-                  <Loading size={hp(8)} />
-                </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={handleLogin}
-                  style={{
-                    height: hp(6.5),
-                    backgroundColor: "#1e3a8a",
-                    borderRadius: 12,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+              <TouchableOpacity
+                onPress={handleLogin}
+                style={{
+                  height: hp(6.5),
+                  backgroundColor: "#1e3a8a",
+                  borderRadius: 12,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ fontSize: hp(2.7) }}
+                  className="font-bold tracking-wider text-white"
                 >
-                  <Text
-                    style={{ fontSize: hp(2.7) }}
-                    className="font-bold tracking-wider text-white"
-                  >
-                    Iniciar sesión
-                  </Text>
-                </TouchableOpacity>
-              )}
+                  Iniciar sesión
+                </Text>
+              </TouchableOpacity>
             </View>
 
             <View className="flex-row justify-center">

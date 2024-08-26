@@ -55,7 +55,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         id: data.userId,
         email: data.email || "",
         username: data.username || "",
-        profile: data.profile,
+        profileImage: data.profileImage,
       };
       setUser(updatedUser);
     }

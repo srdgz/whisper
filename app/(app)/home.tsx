@@ -1,19 +1,10 @@
 import React from "react";
-import { View, Text, Pressable } from "react-native";
-import { useAuth } from "../context/authContext";
+import { View, Text } from "react-native";
 
 const Home: React.FC = () => {
-  const { logout, user } = useAuth();
-  const handleLogout = async () => {
-    await logout();
-  };
-
   return (
-    <View>
+    <View className="flex-1 bg-white">
       <Text>Home</Text>
-      <Pressable onPress={handleLogout}>
-        <Text>Cerrar sesión</Text>
-      </Pressable>
     </View>
   );
 };

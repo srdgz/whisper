@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import Loading from "./components/Loading";
+import CustomKeyboardView from "../components/CustomKeyboardView";
+import BackgroundBlob from "../components/BackgroundBlob";
 import {
   Text,
   View,
@@ -16,8 +17,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { FontAwesome5, Octicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import CustomKeyboardView from "./components/CustomKeyboardView";
-import { useAuth } from "./context/authContext";
+import { useAuth } from "../context/authContext";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -25,31 +25,25 @@ const SignUp: React.FC = () => {
   const emailRef = useRef<string>("");
   const passwordRef = useRef<string>("");
   const usernameRef = useRef<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
 
   const handleRegister = async () => {
     if (!emailRef.current || !passwordRef.current || !usernameRef.current) {
       Alert.alert("Registro", "Por favor, rellena los campos necesarios");
       return;
     }
-    setLoading(true);
     try {
       const response = await register(
         emailRef.current,
         passwordRef.current,
         usernameRef.current
       );
-      setLoading(false);
-      if (response.success) {
-        router.push("/(app)/home");
-      } else {
+      if (!response.success) {
         Alert.alert(
           "Registro",
           response.msg || "Hubo un problema al registrarse"
         );
       }
     } catch (error) {
-      setLoading(false);
       console.error("Error inesperado en el registro:", error);
       Alert.alert(
         "Registro",
@@ -59,31 +53,20 @@ const SignUp: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    router.push("/signIn");
+    router.back();
   };
 
   return (
     <CustomKeyboardView>
       <StatusBar style="dark" />
-      <Image
-        source={require("../assets/images/blob.png")}
-        style={{
-          position: "absolute",
-          width: wp(250),
-          height: wp(250),
-          top: hp(0),
-          left: wp(-80),
-          zIndex: -1,
-          resizeMode: "contain",
-        }}
-      />
+      <BackgroundBlob />
       <View
         className="flex-1 gap-12"
         style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }}
       >
         <View className="items-center">
           <Image
-            source={require("../assets/images/register.png")}
+            source={require("../../assets/images/register.png")}
             alt="Login"
             style={{ height: hp(20) }}
             resizeMode="contain"
@@ -144,29 +127,23 @@ const SignUp: React.FC = () => {
               />
             </View>
             <View>
-              {loading ? (
-                <View className="flex-row justify-center">
-                  <Loading size={hp(8)} />
-                </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={handleRegister}
-                  style={{
-                    height: hp(6.5),
-                    backgroundColor: "#1e3a8a",
-                    borderRadius: 12,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+              <TouchableOpacity
+                onPress={handleRegister}
+                style={{
+                  height: hp(6.5),
+                  backgroundColor: "#1e3a8a",
+                  borderRadius: 12,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ fontSize: hp(2.7) }}
+                  className="font-bold tracking-wider text-white"
                 >
-                  <Text
-                    style={{ fontSize: hp(2.7) }}
-                    className="font-bold tracking-wider text-white"
-                  >
-                    Registrar
-                  </Text>
-                </TouchableOpacity>
-              )}
+                  Registrar
+                </Text>
+              </TouchableOpacity>
             </View>
 
             <View className="flex-row justify-center">
