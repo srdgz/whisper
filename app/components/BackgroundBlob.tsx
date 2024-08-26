@@ -1,13 +1,10 @@
 import React from "react";
-import { Image, ImageStyle, StyleProp } from "react-native";
+import { Image } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
-interface BackgroundBlobProps {
-  style?: StyleProp<ImageStyle>;
-}
+import { BackgroundBlobProps } from "../constants/types";
 
 const BackgroundBlob: React.FC<BackgroundBlobProps> = ({ style }) => {
   return (

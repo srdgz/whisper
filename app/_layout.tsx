@@ -11,13 +11,13 @@ const MainLayout: React.FC = () => {
 
   useEffect(() => {
     if (typeof isAuthenticated === "undefined") return;
-    const isAuthRoute = segments[0] === "(auth)";
-    if (isAuthenticated && isAuthRoute) {
+    const inApp = segments[0] === "(app)";
+    if (isAuthenticated && !inApp) {
       router.replace("/home");
-    } else if (isAuthenticated === false && !isAuthRoute) {
+    } else if (isAuthenticated === false) {
       router.replace("/signIn");
     }
-  }, [isAuthenticated, segments]);
+  }, [isAuthenticated]);
 
   return <Slot />;
 };

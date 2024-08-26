@@ -1,4 +1,6 @@
+import { Router } from "expo-router";
 import { ReactNode } from "react";
+import { ImageStyle, StyleProp } from "react-native";
 
 export interface LoadingProps {
   size: number;
@@ -39,4 +41,19 @@ export interface MenuItemProps {
   action: (value: any) => void;
   value: any;
   icon?: React.ReactNode;
+}
+
+export interface ChatListProps {
+  users: User[];
+}
+
+export interface ChatItemProps {
+  item: User;
+  index: number;
+  noBorder: boolean;
+  router: Router;
+}
+
+export interface BackgroundBlobProps {
+  style?: StyleProp<ImageStyle>;
 }
