@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import Loading from "./components/Loading";
+import CustomKeyboardView from "./components/CustomKeyboardView";
+import BackgroundBlob from "./components/BackgroundBlob";
 import {
   Text,
   View,
@@ -16,7 +18,6 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { Octicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import CustomKeyboardView from "./components/CustomKeyboardView";
 import { useAuth } from "./context/authContext";
 
 const SignIn: React.FC = () => {
@@ -60,22 +61,23 @@ const SignIn: React.FC = () => {
   return (
     <CustomKeyboardView>
       <StatusBar style="dark" />
+      <BackgroundBlob />
       <View
         className="flex-1 gap-12"
         style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }}
       >
         <View className="items-center">
           <Image
-            source={require("../assets/images/login.png")}
+            source={require("../assets/images/icon-name.png")}
             alt="Login"
-            style={{ height: hp(25) }}
+            style={{ height: hp(20) }}
             resizeMode="contain"
           />
         </View>
         <View className="gap-10">
           <Text
             style={{ fontSize: hp(4) }}
-            className="font-bold tracking-wider text-center text-indigo-800"
+            className="font-bold tracking-wider text-center text-indigo-900"
           >
             Inicio de sesión
           </Text>
@@ -129,7 +131,7 @@ const SignIn: React.FC = () => {
                   onPress={handleLogin}
                   style={{
                     height: hp(6.5),
-                    backgroundColor: "#6366F1",
+                    backgroundColor: "#1e3a8a",
                     borderRadius: 12,
                     justifyContent: "center",
                     alignItems: "center",
@@ -155,7 +157,7 @@ const SignIn: React.FC = () => {
               <Pressable onPress={handleNavigate}>
                 <Text
                   style={{ fontSize: hp(1.8) }}
-                  className="font-bold text-indigo-500"
+                  className="font-bold text-indigo-900"
                 >
                   Registrar una cuenta
                 </Text>

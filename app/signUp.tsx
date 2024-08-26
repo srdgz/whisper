@@ -65,6 +65,18 @@ const SignUp: React.FC = () => {
   return (
     <CustomKeyboardView>
       <StatusBar style="dark" />
+      <Image
+        source={require("../assets/images/blob.png")}
+        style={{
+          position: "absolute",
+          width: wp(250),
+          height: wp(250),
+          top: hp(0),
+          left: wp(-80),
+          zIndex: -1,
+          resizeMode: "contain",
+        }}
+      />
       <View
         className="flex-1 gap-12"
         style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }}
@@ -73,14 +85,14 @@ const SignUp: React.FC = () => {
           <Image
             source={require("../assets/images/register.png")}
             alt="Login"
-            style={{ height: hp(25) }}
+            style={{ height: hp(20) }}
             resizeMode="contain"
           />
         </View>
         <View className="gap-10">
           <Text
             style={{ fontSize: hp(4) }}
-            className="font-bold tracking-wider text-center text-indigo-800"
+            className="font-bold tracking-wider text-center text-indigo-900"
           >
             Registro
           </Text>
@@ -141,7 +153,7 @@ const SignUp: React.FC = () => {
                   onPress={handleRegister}
                   style={{
                     height: hp(6.5),
-                    backgroundColor: "#6366F1",
+                    backgroundColor: "#1e3a8a",
                     borderRadius: 12,
                     justifyContent: "center",
                     alignItems: "center",
@@ -167,7 +179,7 @@ const SignUp: React.FC = () => {
               <Pressable onPress={handleNavigate}>
                 <Text
                   style={{ fontSize: hp(1.8) }}
-                  className="font-bold text-indigo-500"
+                  className="font-bold text-indigo-900"
                 >
                   Iniciar sesión
                 </Text>
