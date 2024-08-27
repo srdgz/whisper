@@ -1,4 +1,5 @@
 import { Router } from "expo-router";
+import { Timestamp } from "firebase/firestore";
 import { ReactNode } from "react";
 import { ImageStyle, StyleProp } from "react-native";
 
@@ -64,6 +65,20 @@ export interface ChatRoomProps {
   router: Router;
 }
 
+export interface Message {
+  id: string;
+  text: string;
+  userId: string;
+  senderName: string;
+  createdAt: Timestamp;
+}
+
 export interface MessagesListProps {
   messages: any[];
+  currentUser: User | null;
+}
+
+export interface MessageItemProps {
+  message: any;
+  currentUser: User | null;
 }
