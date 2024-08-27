@@ -1,7 +1,7 @@
 import { Router } from "expo-router";
 import { Timestamp } from "firebase/firestore";
-import { ReactNode } from "react";
-import { ImageStyle, StyleProp } from "react-native";
+import { ReactNode, RefObject } from "react";
+import { ImageStyle, ScrollView, StyleProp } from "react-native";
 
 export interface LoadingProps {
   size: number;
@@ -51,6 +51,7 @@ export interface MenuItemProps {
 
 export interface ChatListProps {
   users: User[];
+  currentUser: User | null;
 }
 
 export interface ChatItemProps {
@@ -58,6 +59,7 @@ export interface ChatItemProps {
   index: number;
   noBorder: boolean;
   router: Router;
+  currentUser: User | null;
 }
 
 export interface ChatRoomProps {
@@ -76,6 +78,7 @@ export interface Message {
 export interface MessagesListProps {
   messages: any[];
   currentUser: User | null;
+  scrollViewRef: RefObject<ScrollView>;
 }
 
 export interface MessageItemProps {

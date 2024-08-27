@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
-import { ChatItemProps } from "../constants/types";
+import { ChatItemProps, Message } from "../constants/types";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useAuth } from "../context/authContext";
 import { Image } from "expo-image";
-import { blurhash } from "../constants/common";
-
-const defaultProfileImage = require("../../assets/images/user.png");
+import { blurhash, getRoomId } from "../constants/common";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 const ChatItem: React.FC<ChatItemProps> = ({
   item,
   index,
   router,
   noBorder,
+  currentUser,
 }) => {
   const { user } = useAuth();
-  const profileImage = user?.profileImage
-    ? { uri: user.profileImage }
-    : defaultProfileImage;
+  const [lastMessage, setLastMessage] = useState<Message | null>(null);
+
+  const formatDate = (timestamp: any) => {
+    const date = timestamp?.toDate ? timestamp.toDate() : new Date();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
 
   const openChatRoom = () => {
     router.push({
@@ -25,6 +37,31 @@ const ChatItem: React.FC<ChatItemProps> = ({
       params: { item: JSON.stringify(item) },
     });
   };
+
+  const renderTime = () => {
+    return lastMessage ? formatDate(lastMessage.createdAt) : "Hora";
+  };
+
+  const renderLastMessage = () => {
+    if (!lastMessage) return "Cargando...";
+    if (currentUser?.id === lastMessage.userId)
+      return `Tú: ${lastMessage.text}`;
+    return lastMessage.text;
+  };
+
+  useEffect(() => {
+    if (currentUser?.id && item?.id) {
+      let roomId = getRoomId(currentUser.id, item.id);
+      const docRef = doc(db, "rooms", roomId);
+      const messagesRef = collection(docRef, "messages");
+      const q = query(messagesRef, orderBy("createdAt", "desc"));
+      const unsub = onSnapshot(q, (snapshot) => {
+        const allMessages = snapshot.docs.map((doc) => doc.data() as Message);
+        setLastMessage(allMessages[0] ? allMessages[0] : null);
+      });
+      return () => unsub();
+    }
+  }, [currentUser?.id, item?.id]);
 
   return (
     <TouchableOpacity
@@ -35,7 +72,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
     >
       <Image
         style={{ height: hp(6), width: hp(6), borderRadius: 100 }}
-        source={profileImage}
+        source={item?.profileImage}
         placeholder={blurhash}
         transition={500}
       />
@@ -51,14 +88,14 @@ const ChatItem: React.FC<ChatItemProps> = ({
             style={{ fontSize: hp(1.6) }}
             className="font-medium text-neutral-500"
           >
-            Hora
+            {renderTime()}
           </Text>
         </View>
         <Text
           style={{ fontSize: hp(1.6) }}
           className="font-medium text-neutral-500"
         >
-          Último mensaje
+          {renderLastMessage()}
         </Text>
       </View>
     </TouchableOpacity>

@@ -14,14 +14,10 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { Divider } from "./Divider";
 
 const ios = Platform.OS === "ios";
-const defaultProfileImage = require("../../assets/images/user.png");
 
 const HomeHeader = () => {
   const { top } = useSafeAreaInsets();
   const { user, logout } = useAuth();
-  const profileImage = user?.profileImage
-    ? { uri: user.profileImage }
-    : defaultProfileImage;
 
   const handleProfile = () => {};
 
@@ -44,7 +40,7 @@ const HomeHeader = () => {
           <MenuTrigger>
             <Image
               style={{ height: hp(4.3), aspectRatio: 1, borderRadius: 100 }}
-              source={profileImage}
+              source={user?.profileImage}
               placeholder={blurhash}
               transition={500}
             />

@@ -7,13 +7,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { ChatRoomProps } from "../constants/types";
 import { Image } from "expo-image";
 
-const defaultProfileImage = require("../../assets/images/user.png");
-
 const ChatRoomHeader: React.FC<ChatRoomProps> = ({ user, router }) => {
-  const profileImage = user?.profileImage
-    ? { uri: user.profileImage }
-    : defaultProfileImage;
-
   const handleBack = () => {
     router.back();
   };
@@ -30,7 +24,7 @@ const ChatRoomHeader: React.FC<ChatRoomProps> = ({ user, router }) => {
             </TouchableOpacity>
             <View className="flex-row items-center gap-3">
               <Image
-                source={profileImage}
+                source={user?.profileImage}
                 style={{
                   height: hp(4.5),
                   aspectRatio: 1,

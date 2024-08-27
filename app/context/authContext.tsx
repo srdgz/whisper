@@ -13,6 +13,8 @@ import {
 import { auth, db } from "../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
+const defaultProfileImage = require("../../assets/images/user.png");
+
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined
 );
@@ -34,6 +36,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             id: firebaseUser.uid,
             email: firebaseUser.email || "",
             username: userData.username,
+            profileImage: userData.profileImage || defaultProfileImage,
           };
           setUser(loggedInUser);
           updateUserData(firebaseUser.uid);
@@ -55,7 +58,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         id: data.userId,
         email: data.email || "",
         username: data.username || "",
-        profileImage: data.profileImage,
+        profileImage: data.profileImage || defaultProfileImage,
       };
       setUser(updatedUser);
     }
@@ -75,6 +78,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
           id: firebaseUser.uid,
           email: firebaseUser.email || "",
           username: userData.username,
+          profileImage: userData.profileImage || defaultProfileImage,
         };
         setUser(loggedInUser);
         setIsAuthenticated(true);
@@ -136,12 +140,14 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         id: firebaseUser.uid,
         email: firebaseUser.email || "",
         username: username,
+        profileImage: defaultProfileImage,
       };
       setUser(newUser);
       setIsAuthenticated(true);
       await setDoc(doc(db, "users", firebaseUser.uid), {
         username: newUser.username,
         userId: newUser.id,
+        profileImage: defaultProfileImage,
       });
       return { success: true };
     } catch (error) {

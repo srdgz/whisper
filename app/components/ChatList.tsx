@@ -4,7 +4,7 @@ import { View, FlatList } from "react-native";
 import { ChatListProps, User } from "../constants/types";
 import { useRouter } from "expo-router";
 
-const ChatList: React.FC<ChatListProps> = ({ users }) => {
+const ChatList: React.FC<ChatListProps> = ({ users, currentUser }) => {
   const router = useRouter();
 
   return (
@@ -18,6 +18,7 @@ const ChatList: React.FC<ChatListProps> = ({ users }) => {
           <ChatItem
             item={item}
             index={index}
+            currentUser={currentUser}
             noBorder={index + 1 == users.length}
             router={router}
           />

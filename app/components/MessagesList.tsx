@@ -6,9 +6,11 @@ import { MessagesListProps } from "../constants/types";
 const MessagesList: React.FC<MessagesListProps> = ({
   messages,
   currentUser,
+  scrollViewRef,
 }) => {
   return (
     <ScrollView
+      ref={scrollViewRef}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingTop: 10 }}
     >

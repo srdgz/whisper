@@ -5,7 +5,14 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import CustomKeyboardView from "../components/CustomKeyboardView";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { View, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  Keyboard,
+} from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useAuth } from "../context/authContext";
 import { getRoomId } from "../constants/common";
@@ -27,8 +34,9 @@ const ChatRoom: React.FC = () => {
   const { user } = useAuth();
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
-  const textRef = useRef("");
+  const textRef = useRef<string>("");
   const inputRef = useRef<TextInput>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const chatItem = typeof item === "string" ? JSON.parse(item) : null;
 
@@ -62,6 +70,7 @@ const ChatRoom: React.FC = () => {
           senderName: user.username,
           createdAt: Timestamp.fromDate(new Date()),
         });
+        updateScrollView();
       } catch (error) {
         console.error(error);
         Alert.alert(
@@ -74,6 +83,16 @@ const ChatRoom: React.FC = () => {
     }
   };
 
+  const updateScrollView = () => {
+    setTimeout(() => {
+      scrollViewRef?.current?.scrollToEnd({ animated: true });
+    }, 100);
+  };
+
+  useEffect(() => {
+    updateScrollView();
+  }, [messages]);
+
   useEffect(() => {
     if (user?.id && chatItem?.id) {
       createRoomIfNotExists();
@@ -85,7 +104,14 @@ const ChatRoom: React.FC = () => {
         const allMessages = snapshot.docs.map((doc) => doc.data() as Message);
         setMessages(allMessages);
       });
-      return () => unsub();
+      const keyboardDidShowListener = Keyboard.addListener(
+        "keyboardDidShow",
+        updateScrollView
+      );
+      return () => {
+        unsub();
+        keyboardDidShowListener.remove();
+      };
     }
   }, [user?.id, chatItem?.id]);
 
@@ -97,7 +123,11 @@ const ChatRoom: React.FC = () => {
         <View className="h-3 border-b border-teal-400" />
         <View className="flex-1 justify-between bg-neutral-100 overflow-visible">
           <View className="flex-1 ">
-            <MessagesList messages={messages} currentUser={user} />
+            <MessagesList
+              scrollViewRef={scrollViewRef}
+              messages={messages}
+              currentUser={user}
+            />
           </View>
           <View style={{ marginBottom: hp(2.7) }} className="pt-2">
             <View className="flex-row mx-3 justify-between bg-white border border-sky-200 rounded-full p-2 pl-5">

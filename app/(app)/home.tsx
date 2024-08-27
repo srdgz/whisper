@@ -38,7 +38,7 @@ const Home: React.FC = () => {
     <View className="flex-1 bg-white">
       <StatusBar style="light" />
       {users.length > 0 ? (
-        <ChatList users={users} />
+        <ChatList currentUser={user} users={users} />
       ) : (
         <View className="flex items-center" style={{ top: hp(30) }}>
           <Loading size={hp(10)} />
