@@ -1,7 +1,7 @@
 import React from "react";
+import ChatItem from "./ChatItem";
 import { View, FlatList } from "react-native";
 import { ChatListProps, User } from "../constants/types";
-import ChatItem from "./ChatItem";
 import { useRouter } from "expo-router";
 
 const ChatList: React.FC<ChatListProps> = ({ users }) => {

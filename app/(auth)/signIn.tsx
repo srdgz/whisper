@@ -52,7 +52,7 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <CustomKeyboardView>
+    <CustomKeyboardView inChat={false}>
       <StatusBar style="dark" />
       <BackgroundBlob />
       <View

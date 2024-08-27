@@ -1,10 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { ChatItemProps } from "../constants/types";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useAuth } from "../context/authContext";
 import { Image } from "expo-image";
 import { blurhash } from "../constants/common";
@@ -25,7 +22,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   const openChatRoom = () => {
     router.push({
       pathname: "/chatRoom",
-      params: { id: item.id },
+      params: { item: JSON.stringify(item) },
     });
   };
 

@@ -6,6 +6,15 @@ export interface LoadingProps {
   size: number;
 }
 
+export interface CustomKeyboardViewProps {
+  children: ReactNode;
+  inChat: boolean;
+}
+
+export interface BackgroundBlobProps {
+  style?: StyleProp<ImageStyle>;
+}
+
 export interface User {
   id: string;
   email: string;
@@ -32,10 +41,6 @@ export interface AuthContextProviderProps {
   children: ReactNode;
 }
 
-export interface CustomKeyboardViewProps {
-  children: ReactNode;
-}
-
 export interface MenuItemProps {
   text: string;
   action: (value: any) => void;
@@ -54,6 +59,11 @@ export interface ChatItemProps {
   router: Router;
 }
 
-export interface BackgroundBlobProps {
-  style?: StyleProp<ImageStyle>;
+export interface ChatRoomProps {
+  user: User;
+  router: Router;
+}
+
+export interface MessagesListProps {
+  messages: any[];
 }
