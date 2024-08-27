@@ -11,9 +11,9 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 
-const defaultProfileImage = require("../../assets/images/user.png");
+const defaultProfileImage = "https://i.ibb.co/rk0SghB/user.png";
 
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined
@@ -39,7 +39,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             profileImage: userData.profileImage || defaultProfileImage,
           };
           setUser(loggedInUser);
-          updateUserData(firebaseUser.uid);
         }
       } else {
         setIsAuthenticated(false);
@@ -49,18 +48,19 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     return unsub;
   }, []);
 
-  const updateUserData = async (userId: string): Promise<void> => {
-    const docRef = doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      const updatedUser: User = {
-        id: data.userId,
-        email: data.email || "",
-        username: data.username || "",
-        profileImage: data.profileImage || defaultProfileImage,
-      };
-      setUser(updatedUser);
+  const updateUserProfile = async (
+    updatedUser: Partial<User>
+  ): Promise<void> => {
+    if (user) {
+      const docRef = doc(db, "users", user.id);
+      await updateDoc(docRef, updatedUser);
+      setUser(
+        (prevUser) =>
+          ({
+            ...prevUser,
+            ...updatedUser,
+          } as User)
+      );
     }
   };
 
@@ -147,6 +147,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       await setDoc(doc(db, "users", firebaseUser.uid), {
         username: newUser.username,
         userId: newUser.id,
+        email: newUser.email,
         profileImage: defaultProfileImage,
       });
       return { success: true };
@@ -178,7 +179,14 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, register, logout }}
+      value={{
+        user,
+        isAuthenticated,
+        login,
+        register,
+        logout,
+        updateUserProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -12,14 +12,18 @@ import { Menu, MenuOptions, MenuTrigger } from "react-native-popup-menu";
 import { MenuItem } from "./CustomMenuItems";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { Divider } from "./Divider";
+import { useRouter } from "expo-router";
 
 const ios = Platform.OS === "ios";
 
 const HomeHeader = () => {
+  const router = useRouter();
   const { top } = useSafeAreaInsets();
   const { user, logout } = useAuth();
 
-  const handleProfile = () => {};
+  const handleProfile = () => {
+    router.push("/profile");
+  };
 
   const handleLogout = async () => {
     await logout();

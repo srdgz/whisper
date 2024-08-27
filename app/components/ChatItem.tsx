@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { ChatItemProps, Message } from "../constants/types";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { useAuth } from "../context/authContext";
 import { Image } from "expo-image";
 import { blurhash, getRoomId } from "../constants/common";
 import {
@@ -14,6 +13,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
+const defaultProfileImage = "https://i.ibb.co/rk0SghB/user.png";
+
 const ChatItem: React.FC<ChatItemProps> = ({
   item,
   index,
@@ -21,7 +22,6 @@ const ChatItem: React.FC<ChatItemProps> = ({
   noBorder,
   currentUser,
 }) => {
-  const { user } = useAuth();
   const [lastMessage, setLastMessage] = useState<Message | null>(null);
 
   const formatDate = (timestamp: any) => {
@@ -72,7 +72,9 @@ const ChatItem: React.FC<ChatItemProps> = ({
     >
       <Image
         style={{ height: hp(6), width: hp(6), borderRadius: 100 }}
-        source={item?.profileImage}
+        source={
+          item?.profileImage ? { uri: item.profileImage } : defaultProfileImage
+        }
         placeholder={blurhash}
         transition={500}
       />

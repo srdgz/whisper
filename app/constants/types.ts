@@ -20,7 +20,7 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  profileImage?: string;
+  profileImage: string;
 }
 
 export interface AuthContextProps {
@@ -36,6 +36,7 @@ export interface AuthContextProps {
     password: string,
     username: string
   ) => Promise<{ success: boolean; msg?: string }>;
+  updateUserProfile: (updatedUser: Partial<User>) => Promise<void>;
 }
 
 export interface AuthContextProviderProps {
