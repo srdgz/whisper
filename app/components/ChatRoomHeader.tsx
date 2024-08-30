@@ -6,11 +6,20 @@ import { TouchableOpacity, View, Text } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { ChatRoomProps } from "../constants/types";
 import { Image } from "expo-image";
+import { blurhash } from "../constants/common";
 
 const ChatRoomHeader: React.FC<ChatRoomProps> = ({ user, router }) => {
   const handleBack = () => {
     router.back();
   };
+
+  const getCorrectProfileImageURL = (url: string) => {
+    return url.replace("/images/", "/images%2F");
+  };
+
+  const profileImageURL = user.profileImage
+    ? getCorrectProfileImageURL(user.profileImage)
+    : null;
 
   return (
     <Stack.Screen
@@ -23,15 +32,21 @@ const ChatRoomHeader: React.FC<ChatRoomProps> = ({ user, router }) => {
               <Octicons name="chevron-left" size={hp(4)} color="#003366" />
             </TouchableOpacity>
             <View className="flex-row items-center gap-3">
-              <Image
-                source={user?.profileImage}
-                style={{
-                  height: hp(4.5),
-                  aspectRatio: 1,
-                  borderRadius: 100,
-                  marginLeft: 10,
-                }}
-              />
+              {profileImageURL && (
+                <Image
+                  source={{ uri: profileImageURL }}
+                  style={{
+                    height: hp(4.5),
+                    aspectRatio: 1,
+                    borderRadius: 100,
+                    marginLeft: 10,
+                  }}
+                  placeholder={blurhash}
+                  transition={500}
+                  cachePolicy="disk"
+                />
+              )}
+
               <Text
                 style={{ fontSize: hp(2.5) }}
                 className="text-neutral-600 font-medium"
