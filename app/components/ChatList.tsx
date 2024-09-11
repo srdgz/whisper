@@ -12,7 +12,7 @@ const ChatList: React.FC<ChatListProps> = ({ users, currentUser }) => {
       <FlatList
         data={users}
         contentContainerStyle={{ flex: 1, paddingVertical: 25 }}
-        keyExtractor={(item: User) => item.id.toString()}
+        keyExtractor={(item: User) => item.userId.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }: { item: User; index: number }) => (
           <ChatItem

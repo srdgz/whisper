@@ -44,14 +44,14 @@ const ChatItem: React.FC<ChatItemProps> = ({
 
   const renderLastMessage = () => {
     if (!lastMessage) return "Cargando...";
-    if (currentUser?.id === lastMessage.userId)
+    if (currentUser?.userId === lastMessage.userId)
       return `Tú: ${lastMessage.text}`;
     return lastMessage.text;
   };
 
   useEffect(() => {
-    if (currentUser?.id && item?.id) {
-      let roomId = getRoomId(currentUser.id, item.id);
+    if (currentUser?.userId && item?.userId) {
+      let roomId = getRoomId(currentUser.userId, item.userId);
       const docRef = doc(db, "rooms", roomId);
       const messagesRef = collection(docRef, "messages");
       const q = query(messagesRef, orderBy("createdAt", "desc"));
@@ -61,7 +61,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
       });
       return () => unsub();
     }
-  }, [currentUser?.id, item?.id]);
+  }, [currentUser?.userId, item?.userId]);
 
   return (
     <TouchableOpacity

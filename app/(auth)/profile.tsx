@@ -27,7 +27,7 @@ const Profile: React.FC = () => {
           const response = await fetch(uri);
           const blob = await response.blob();
           const file = new File([blob], name, { type: blob.type });
-          const downloadURL = await UploadImage(file, user?.id || "");
+          const downloadURL = await UploadImage(file, user?.userId || "");
           setSelectedImage(downloadURL);
           await updateUserProfile({ profileImage: downloadURL });
           Alert.alert(
@@ -47,7 +47,7 @@ const Profile: React.FC = () => {
   };
 
   const handleUpdate = async () => {
-    if (user?.id) {
+    if (user?.userId) {
       try {
         await updateUserProfile({ username });
         Alert.alert(

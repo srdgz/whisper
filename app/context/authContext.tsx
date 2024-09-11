@@ -33,7 +33,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const loggedInUser: User = {
-            id: firebaseUser.uid,
+            userId: firebaseUser.uid,
             email: firebaseUser.email || "",
             username: userData.username,
             profileImage: userData.profileImage || defaultProfileImage,
@@ -52,7 +52,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     updatedUser: Partial<User>
   ): Promise<void> => {
     if (user) {
-      const docRef = doc(db, "users", user.id);
+      const docRef = doc(db, "users", user.userId);
       await updateDoc(docRef, updatedUser);
       setUser(
         (prevUser) =>
@@ -75,7 +75,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         const loggedInUser: User = {
-          id: firebaseUser.uid,
+          userId: firebaseUser.uid,
           email: firebaseUser.email || "",
           username: userData.username,
           profileImage: userData.profileImage || defaultProfileImage,
@@ -137,7 +137,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       );
       const firebaseUser = response.user;
       const newUser: User = {
-        id: firebaseUser.uid,
+        userId: firebaseUser.uid,
         email: firebaseUser.email || "",
         username: username,
         profileImage: defaultProfileImage,
@@ -146,7 +146,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       setIsAuthenticated(true);
       await setDoc(doc(db, "users", firebaseUser.uid), {
         username: newUser.username,
-        userId: newUser.id,
+        userId: newUser.userId,
         email: newUser.email,
         profileImage: defaultProfileImage,
       });

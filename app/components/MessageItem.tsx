@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen";
 
 const MessageItem: React.FC<MessageItemProps> = ({ message, currentUser }) => {
-  if (currentUser?.id == message?.userId) {
+  if (currentUser?.userId == message?.userId) {
     return (
       <View className="flex-row justify-end mb-3 mr-3">
         <View style={{ width: wp(80) }}>

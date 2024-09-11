@@ -41,23 +41,24 @@ const ChatRoom: React.FC = () => {
   const chatItem = typeof item === "string" ? JSON.parse(item) : null;
 
   const createRoomIfNotExists = async () => {
-    if (user?.id && chatItem?.id) {
-      let roomId = getRoomId(user.id, chatItem.id);
+    if (user?.userId && chatItem?.userId) {
+      let roomId = getRoomId(user.userId, chatItem.userId);
       await setDoc(doc(db, "rooms", roomId), {
         roomId,
         createdAt: Timestamp.fromDate(new Date()),
+        users: [user.userId, chatItem.userId],
       });
     } else {
-      console.error("User ID or Chat Item ID is undefined");
+      console.error("Error creating chat");
     }
   };
 
   const handleSendMessage = async () => {
     let message = textRef.current.trim();
     if (!message) return;
-    if (user?.id && chatItem?.id) {
+    if (user?.userId && chatItem?.userId) {
       try {
-        let roomId = getRoomId(user.id, chatItem.id);
+        let roomId = getRoomId(user.userId, chatItem.userId);
         const docRef = doc(db, "rooms", roomId);
         const messagesRef = collection(docRef, "messages");
         textRef.current = "";
@@ -65,7 +66,7 @@ const ChatRoom: React.FC = () => {
           inputRef.current.clear();
         }
         const newDoc = await addDoc(messagesRef, {
-          userId: user.id,
+          userId: user.userId,
           text: message,
           senderName: user.username,
           createdAt: Timestamp.fromDate(new Date()),
@@ -94,9 +95,9 @@ const ChatRoom: React.FC = () => {
   }, [messages]);
 
   useEffect(() => {
-    if (user?.id && chatItem?.id) {
+    if (user?.userId && chatItem?.userId) {
       createRoomIfNotExists();
-      let roomId = getRoomId(user.id, chatItem.id);
+      let roomId = getRoomId(user.userId, chatItem.userId);
       const docRef = doc(db, "rooms", roomId);
       const messagesRef = collection(docRef, "messages");
       const q = query(messagesRef, orderBy("createdAt", "asc"));
@@ -113,7 +114,7 @@ const ChatRoom: React.FC = () => {
         keyboardDidShowListener.remove();
       };
     }
-  }, [user?.id, chatItem?.id]);
+  }, [user?.userId, chatItem?.userId]);
 
   return (
     <CustomKeyboardView inChat={true}>

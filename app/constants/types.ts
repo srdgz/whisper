@@ -17,7 +17,7 @@ export interface BackgroundBlobProps {
 }
 
 export interface User {
-  id: string;
+  userId: string;
   email: string;
   username: string;
   profileImage: string;
@@ -85,4 +85,13 @@ export interface MessagesListProps {
 export interface MessageItemProps {
   message: any;
   currentUser: User | null;
+}
+
+export interface SearchUserModalProps {
+  visible: boolean;
+  email: string;
+  setEmail: (email: string) => void;
+  isLoading: boolean;
+  onSearch: () => void;
+  onClose: () => void;
 }
