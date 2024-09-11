@@ -43,7 +43,9 @@ const SearchUserModal: React.FC<SearchUserModalProps> = ({
             keyboardType="email-address"
           />
           <Pressable
-            onPress={onSearch}
+            onPress={() => {
+              onSearch(localEmail);
+            }}
             disabled={isLoading}
             className="mt-2 p-2 bg-teal-500 rounded-md"
           >

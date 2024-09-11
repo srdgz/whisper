@@ -93,6 +93,6 @@ export interface SearchUserModalProps {
   email: string;
   setEmail: (email: string) => void;
   isLoading: boolean;
-  onSearch: () => void;
+  onSearch: (email: string) => void;
   onClose: () => void;
 }

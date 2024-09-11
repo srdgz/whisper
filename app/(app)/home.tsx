@@ -61,7 +61,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleSearchUser = async () => {
+  const handleSearchUser = async (email: string) => {
     if (!email) {
       Alert.alert("Error", "Por favor ingresa un correo electrónico.");
       return;
