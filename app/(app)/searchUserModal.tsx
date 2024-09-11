@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Modal, View, Text, TextInput, Pressable } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { SearchUserModalProps } from "../constants/types";
 
 const SearchUserModal: React.FC<SearchUserModalProps> = ({
@@ -30,7 +38,15 @@ const SearchUserModal: React.FC<SearchUserModalProps> = ({
       animationType="slide"
       onRequestClose={handleClose}
     >
-      <View className="flex-1 justify-center items-center bg-gray-200 bg-opacity-50">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#e3e3e3",
+        }}
+      >
         <View className="bg-white p-8 rounded-lg w-11/12">
           <Text className="text-xl text-gray-700 font-bold mb-4">
             Buscar usuario por correo
@@ -60,7 +76,7 @@ const SearchUserModal: React.FC<SearchUserModalProps> = ({
             <Text className="text-center text-gray-700 text-xl">Cancelar</Text>
           </Pressable>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
