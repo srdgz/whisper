@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import ChatItem from "./ChatItem";
 import { View, FlatList } from "react-native";
 import { ChatListProps, User } from "../constants/types";
 import { useRouter } from "expo-router";
 
-const ChatList: React.FC<ChatListProps> = ({ users, currentUser }) => {
+const ChatList: React.FC<ChatListProps> = ({
+  users: initialUsers,
+  currentUser,
+}) => {
+  const [users, setUsers] = useState<User[]>(initialUsers);
   const router = useRouter();
+
+  const handleDeleteChat = (userId: string) => {
+    const updatedUsers = users.filter((user) => user.userId !== userId);
+    setUsers(updatedUsers);
+  };
 
   return (
     <View className="flex-1">
@@ -19,8 +28,9 @@ const ChatList: React.FC<ChatListProps> = ({ users, currentUser }) => {
             item={item}
             index={index}
             currentUser={currentUser}
-            noBorder={index + 1 == users.length}
+            noBorder={index + 1 === users.length}
             router={router}
+            onDelete={handleDeleteChat}
           />
         )}
       />

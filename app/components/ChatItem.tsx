@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, Alert } from "react-native";
 import { ChatItemProps, Message } from "../constants/types";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Image } from "expo-image";
 import { blurhash, getRoomId } from "../constants/common";
 import {
   collection,
+  deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import { Swipeable } from "react-native-gesture-handler";
 
 const defaultProfileImage = "https://i.ibb.co/rk0SghB/user.png";
 
@@ -21,6 +24,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   router,
   noBorder,
   currentUser,
+  onDelete,
 }) => {
   const [lastMessage, setLastMessage] = useState<Message | null>(null);
 
@@ -49,6 +53,59 @@ const ChatItem: React.FC<ChatItemProps> = ({
     return lastMessage.text;
   };
 
+  const deleteChat = async () => {
+    try {
+      if (currentUser?.userId && item?.userId) {
+        const roomId = getRoomId(currentUser.userId, item.userId);
+        const messagesRef = collection(db, "rooms", roomId, "messages");
+        const querySnapshot = await getDocs(messagesRef);
+        const deletePromises = querySnapshot.docs.map((messageDoc) =>
+          deleteDoc(doc(db, "rooms", roomId, "messages", messageDoc.id))
+        );
+        await Promise.all(deletePromises);
+        await deleteDoc(doc(db, "rooms", roomId));
+        await deleteDoc(doc(db, "chats", roomId));
+        onDelete(item.userId);
+        Alert.alert("Eliminado", "El chat ha sido eliminado");
+      }
+    } catch (error) {
+      console.error("Error al eliminar el chat: ", error);
+      Alert.alert("Error", "No se pudo eliminar el chat. Inténtalo de nuevo.");
+    }
+  };
+
+  const renderDeleteButton = () => {
+    return (
+      <TouchableOpacity
+        style={{
+          backgroundColor: "red",
+          justifyContent: "center",
+          alignItems: "center",
+          width: 80,
+        }}
+        onPress={() => {
+          Alert.alert(
+            "Eliminar Chat",
+            "¿Estás seguro de que deseas eliminar este chat?",
+            [
+              {
+                text: "Cancelar",
+                style: "cancel",
+              },
+              {
+                text: "Eliminar",
+                style: "destructive",
+                onPress: deleteChat,
+              },
+            ]
+          );
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>Eliminar</Text>
+      </TouchableOpacity>
+    );
+  };
+
   useEffect(() => {
     if (currentUser?.userId && item?.userId) {
       let roomId = getRoomId(currentUser.userId, item.userId);
@@ -64,43 +121,47 @@ const ChatItem: React.FC<ChatItemProps> = ({
   }, [currentUser?.userId, item?.userId]);
 
   return (
-    <TouchableOpacity
-      className={`flex-row justify-between mx-4 items-center gap-3 mb-4 pb-2 ${
-        noBorder ? "" : "border-b border-b-neutral-200"
-      }`}
-      onPress={openChatRoom}
-    >
-      <Image
-        style={{ height: hp(6), width: hp(6), borderRadius: 100 }}
-        source={
-          item?.profileImage ? { uri: item.profileImage } : defaultProfileImage
-        }
-        placeholder={blurhash}
-        transition={500}
-      />
-      <View className="flex-1 gap-1">
-        <View className="flex-row justify-between">
-          <Text
-            style={{ fontSize: hp(1.8) }}
-            className="font-semibold text-neutral-700"
-          >
-            {item?.username}
-          </Text>
+    <Swipeable renderRightActions={renderDeleteButton}>
+      <TouchableOpacity
+        className={`flex-row justify-between mx-4 items-center gap-3 mb-4 pb-2 ${
+          noBorder ? "" : "border-b border-b-neutral-200"
+        }`}
+        onPress={openChatRoom}
+      >
+        <Image
+          style={{ height: hp(6), width: hp(6), borderRadius: 100 }}
+          source={
+            item?.profileImage
+              ? { uri: item.profileImage }
+              : defaultProfileImage
+          }
+          placeholder={blurhash}
+          transition={500}
+        />
+        <View className="flex-1 gap-1">
+          <View className="flex-row justify-between">
+            <Text
+              style={{ fontSize: hp(1.8) }}
+              className="font-semibold text-neutral-700"
+            >
+              {item?.username}
+            </Text>
+            <Text
+              style={{ fontSize: hp(1.6) }}
+              className="font-medium text-neutral-500"
+            >
+              {renderTime()}
+            </Text>
+          </View>
           <Text
             style={{ fontSize: hp(1.6) }}
             className="font-medium text-neutral-500"
           >
-            {renderTime()}
+            {renderLastMessage()}
           </Text>
         </View>
-        <Text
-          style={{ fontSize: hp(1.6) }}
-          className="font-medium text-neutral-500"
-        >
-          {renderLastMessage()}
-        </Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Swipeable>
   );
 };
 

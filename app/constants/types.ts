@@ -61,6 +61,7 @@ export interface ChatItemProps {
   noBorder: boolean;
   router: Router;
   currentUser: User | null;
+  onDelete: (userId: string) => void;
 }
 
 export interface ChatRoomProps {

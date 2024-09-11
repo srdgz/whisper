@@ -1,25 +1,18 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import { getRoomId } from "../constants/common";
 
 const createChat = async (currentUserId: string, otherUserId: string) => {
-  const chatsRef = collection(db, "chats");
-  const q = query(chatsRef, where("users", "array-contains", currentUserId));
-  const existingChats = await getDocs(q);
-  let chatId = null;
-  existingChats.forEach((chat) => {
-    const chatData = chat.data();
-    if (chatData.users.includes(otherUserId)) {
-      chatId = chat.id;
-    }
-  });
-  if (!chatId) {
-    const newChatDoc = await addDoc(chatsRef, {
+  const roomId = getRoomId(currentUserId, otherUserId);
+  const chatDocRef = doc(db, "chats", roomId);
+  const docSnapshot = await getDoc(chatDocRef);
+  if (!docSnapshot.exists()) {
+    await setDoc(chatDocRef, {
       users: [currentUserId, otherUserId],
       createdAt: new Date(),
     });
-    chatId = newChatDoc.id;
   }
-  return chatId;
+  return roomId;
 };
 
 export default createChat;

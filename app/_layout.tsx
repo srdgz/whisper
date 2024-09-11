@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Slot, useSegments, useRouter } from "expo-router";
 import { useAuth, AuthContextProvider } from "./context/authContext";
 import { MenuProvider } from "react-native-popup-menu";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
 
 const MainLayout: React.FC = () => {
@@ -24,11 +25,13 @@ const MainLayout: React.FC = () => {
 
 const RootLayout = () => {
   return (
-    <MenuProvider>
-      <AuthContextProvider>
-        <MainLayout />
-      </AuthContextProvider>
-    </MenuProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <MenuProvider>
+        <AuthContextProvider>
+          <MainLayout />
+        </AuthContextProvider>
+      </MenuProvider>
+    </GestureHandlerRootView>
   );
 };
 

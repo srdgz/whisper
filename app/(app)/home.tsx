@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ChatList from "../components/ChatList";
 import Loading from "../components/Loading";
 import Octicons from "@expo/vector-icons/Octicons";
+import SearchUserModal from "./searchUserModal";
+import createChat from "../lib/createChat";
 import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity, View, Alert, Text } from "react-native";
 import {
@@ -12,8 +14,6 @@ import { User } from "../constants/types";
 import { useAuth } from "../context/authContext";
 import { chatsRef, usersRef } from "../lib/firebase";
 import { getDocs, query, where } from "firebase/firestore";
-import SearchUserModal from "./searchUserModal";
-import createChat from "../lib/createChat";
 
 const Home: React.FC = () => {
   const { user } = useAuth();
