@@ -37,6 +37,7 @@ export interface AuthContextProps {
     username: string
   ) => Promise<{ success: boolean; msg?: string }>;
   updateUserProfile: (updatedUser: Partial<User>) => Promise<void>;
+  deleteUserAccount: () => Promise<void>;
 }
 
 export interface AuthContextProviderProps {

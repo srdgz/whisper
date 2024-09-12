@@ -6,6 +6,8 @@ import {
 } from "../constants/types";
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
+  getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
@@ -177,6 +179,14 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
+  const deleteUserAccount = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      await deleteUser(user);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -186,6 +196,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         register,
         logout,
         updateUserProfile,
+        deleteUserAccount,
       }}
     >
       {children}

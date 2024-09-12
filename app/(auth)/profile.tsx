@@ -6,7 +6,7 @@ import { View, Text, Pressable, TextInput, Image, Alert } from "react-native";
 import { useAuth } from "../context/authContext";
 
 const Profile: React.FC = () => {
-  const { user, updateUserProfile } = useAuth();
+  const { user, updateUserProfile, deleteUserAccount } = useAuth();
   const router = useRouter();
   const [username, setUsername] = useState(user?.username || "");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -60,6 +60,39 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      "Eliminar cuenta",
+      "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteUserAccount();
+              Alert.alert(
+                "Cuenta eliminada",
+                "Tu cuenta ha sido eliminada exitosamente."
+              );
+              router.replace("/signIn");
+            } catch (error) {
+              console.error("Error al eliminar la cuenta:", error);
+              Alert.alert(
+                "Error",
+                "Hubo un problema al eliminar tu cuenta. Intenta de nuevo más tarde."
+              );
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const handleBack = () => {
     router.back();
   };
@@ -108,6 +141,12 @@ const Profile: React.FC = () => {
         className="mt-2 p-2 bg-teal-500 rounded-md"
       >
         <Text className="text-white text-center text-xl">Guardar</Text>
+      </Pressable>
+      <Pressable
+        onPress={handleDeleteAccount}
+        className="mt-4 p-2 bg-red-400 rounded-md"
+      >
+        <Text className="text-white text-center text-xl">Eliminar cuenta</Text>
       </Pressable>
       <Pressable
         onPress={handleBack}
