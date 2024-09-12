@@ -103,7 +103,7 @@ const SignIn: React.FC = () => {
                   onChangeText={(value) => (passwordRef.current = value)}
                   style={{ fontSize: hp(2) }}
                   className="flex-1 font-semibold text-neutral-700"
-                  placeholder="contraseña"
+                  placeholder="Contraseña"
                   secureTextEntry={!isPasswordVisible}
                   placeholderTextColor={"gray"}
                 />
