@@ -1,6 +1,6 @@
 import React from "react";
 import MessageItem from "./MessageItem";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { MessagesListProps } from "../constants/types";
 
 const MessagesList: React.FC<MessagesListProps> = ({
@@ -12,7 +12,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
     <ScrollView
       ref={scrollViewRef}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingTop: 10 }}
+      contentContainerStyle={styles.container}
     >
       {messages.map((message, index) => {
         return (
@@ -26,5 +26,11 @@ const MessagesList: React.FC<MessagesListProps> = ({
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 10,
+  },
+});
 
 export default MessagesList;

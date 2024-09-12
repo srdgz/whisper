@@ -1,9 +1,6 @@
-import { View, Text, Platform } from "react-native";
 import React from "react";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { View, Text, Platform, StyleSheet } from "react-native";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { blurhash } from "../constants/common";
@@ -31,11 +28,11 @@ const HomeHeader = () => {
 
   return (
     <View
-      style={{ paddingTop: ios ? top : top + 10, backgroundColor: "#4DB6AC" }}
+      style={[{ paddingTop: ios ? top : top + 10 }, styles.container]}
       className="flex-row justify-between px-5 pb-6 rounded-b-3xl shadow"
     >
       <View>
-        <Text style={{ fontSize: hp(4) }} className="font-medium text-white">
+        <Text style={styles.title} className="font-medium text-white">
           Chats
         </Text>
       </View>
@@ -43,7 +40,7 @@ const HomeHeader = () => {
         <Menu>
           <MenuTrigger>
             <Image
-              style={{ height: hp(4.3), aspectRatio: 1, borderRadius: 100 }}
+              style={styles.image}
               source={user?.profileImage}
               placeholder={blurhash}
               transition={500}
@@ -82,5 +79,19 @@ const HomeHeader = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#4DB6AC",
+  },
+  title: {
+    fontSize: hp(4),
+  },
+  image: {
+    height: hp(4.3),
+    aspectRatio: 1,
+    borderRadius: 100,
+  },
+});
 
 export default HomeHeader;

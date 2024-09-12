@@ -5,7 +5,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import SearchUserModal from "./searchUserModal";
 import createChat from "../lib/createChat";
 import { StatusBar } from "expo-status-bar";
-import { TouchableOpacity, View, Alert, Text } from "react-native";
+import { TouchableOpacity, View, Alert, Text, StyleSheet } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -113,25 +113,18 @@ const Home: React.FC = () => {
     <View className="flex-1 bg-white">
       <StatusBar style="light" />
       {isLoading ? (
-        <View className="flex items-center" style={{ top: hp(30) }}>
+        <View className="flex items-center" style={styles.homeView}>
           <Loading size={hp(10)} />
         </View>
       ) : users.length > 0 ? (
         <ChatList currentUser={user} users={users} />
       ) : (
         <View className="flex-1 justify-center items-center">
-          <Text style={{ fontSize: 16, color: "gray" }}>
-            No hay chats iniciados.
-          </Text>
+          <Text style={styles.homeTextView}>No hay chats iniciados.</Text>
         </View>
       )}
       <TouchableOpacity
-        style={{
-          position: "absolute",
-          bottom: hp(3),
-          right: wp(8),
-          zIndex: 10,
-        }}
+        style={styles.addButton}
         onPress={() => setIsSearchUserModalVisible(true)}
       >
         <Octicons name="plus-circle" size={hp(7)} color="#4DB6AC" />
@@ -148,5 +141,21 @@ const Home: React.FC = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  homeView: {
+    top: hp(30),
+  },
+  homeTextView: {
+    fontSize: 16,
+    color: "gray",
+  },
+  addButton: {
+    position: "absolute",
+    bottom: hp(3),
+    right: wp(8),
+    zIndex: 10,
+  },
+});
 
 export default Home;

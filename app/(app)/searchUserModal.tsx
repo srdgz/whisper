@@ -7,6 +7,7 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
 } from "react-native";
 import { SearchUserModalProps } from "../constants/types";
 
@@ -40,12 +41,7 @@ const SearchUserModal: React.FC<SearchUserModalProps> = ({
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#e3e3e3",
-        }}
+        style={styles.searchUserModalView}
       >
         <View className="bg-white p-8 rounded-lg w-11/12">
           <Text className="text-xl text-gray-700 font-bold mb-4">
@@ -80,5 +76,14 @@ const SearchUserModal: React.FC<SearchUserModalProps> = ({
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  searchUserModalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e3e3e3",
+  },
+});
 
 export default SearchUserModal;

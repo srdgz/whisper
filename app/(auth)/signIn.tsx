@@ -9,6 +9,7 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
+  StyleSheet,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -60,36 +61,33 @@ const SignIn: React.FC = () => {
     <CustomKeyboardView inChat={false}>
       <StatusBar style="dark" />
       <BackgroundBlob />
-      <View
-        className="flex-1 gap-12"
-        style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }}
-      >
+      <View className="flex-1 gap-12" style={styles.signinView}>
         <View className="items-center">
           <Image
             source={require("../../assets/images/icon.png")}
             alt="Login"
-            style={{ height: hp(20) }}
+            style={styles.image}
             resizeMode="contain"
           />
         </View>
         <View className="gap-10">
           <Text
-            style={{ fontSize: hp(4) }}
+            style={styles.title}
             className="font-bold tracking-wider text-center text-indigo-900"
           >
             Inicio de sesión
           </Text>
           <View className="gap-4">
             <View
-              style={{ height: hp(7) }}
+              style={styles.inputView}
               className="flex-row gap-4 px-4 bg-neutral-100 items-center rounded-2xl"
             >
-              <View style={{ width: hp(3), alignItems: "center" }}>
+              <View style={styles.iconView}>
                 <Octicons name="mail" size={hp(2.7)} color="gray" />
               </View>
               <TextInput
                 onChangeText={(value) => (emailRef.current = value)}
-                style={{ fontSize: hp(2) }}
+                style={styles.inputText}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="email@email.com"
                 placeholderTextColor={"gray"}
@@ -97,15 +95,15 @@ const SignIn: React.FC = () => {
             </View>
             <View className="gap-6">
               <View
-                style={{ height: hp(7) }}
+                style={styles.inputView}
                 className="flex-row gap-4 px-4 bg-neutral-100 items-center rounded-2xl"
               >
-                <View style={{ width: hp(3), alignItems: "center" }}>
+                <View style={styles.iconView}>
                   <Octicons name="lock" size={hp(2.7)} color="gray" />
                 </View>
                 <TextInput
                   onChangeText={(value) => (passwordRef.current = value)}
-                  style={{ fontSize: hp(2) }}
+                  style={styles.inputText}
                   className="flex-1 font-semibold text-neutral-700"
                   placeholder="Contraseña"
                   secureTextEntry={!isPasswordVisible}
@@ -122,13 +120,7 @@ const SignIn: React.FC = () => {
                 </TouchableOpacity>
               </View>
               <TouchableOpacity onPress={handleForgotPassword}>
-                <Text
-                  style={{
-                    color: "#1e3a8a",
-                    fontWeight: "bold",
-                    paddingVertical: hp(0.6),
-                  }}
-                >
+                <Text style={styles.forgotPasswordButton}>
                   ¿Olvidaste tu contraseña?
                 </Text>
               </TouchableOpacity>
@@ -136,33 +128,26 @@ const SignIn: React.FC = () => {
             <View>
               <TouchableOpacity
                 onPress={handleLogin}
-                style={{
-                  height: hp(6.5),
-                  backgroundColor: "#1e3a8a",
-                  borderRadius: 12,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={styles.loginButton}
               >
                 <Text
-                  style={{ fontSize: hp(2.7) }}
+                  style={styles.textLoginButton}
                   className="font-bold tracking-wider text-white"
                 >
                   Iniciar sesión
                 </Text>
               </TouchableOpacity>
             </View>
-
             <View className="flex-row justify-center">
               <Text
-                style={{ fontSize: hp(1.8) }}
+                style={styles.textSignup}
                 className="font-semibold text-neutral-500"
               >
                 ¿Aún no tienes cuenta?{" "}
               </Text>
               <Pressable onPress={handleNavigate}>
                 <Text
-                  style={{ fontSize: hp(1.8) }}
+                  style={styles.textSignup}
                   className="font-bold text-indigo-900"
                 >
                   Registrar una cuenta
@@ -175,5 +160,46 @@ const SignIn: React.FC = () => {
     </CustomKeyboardView>
   );
 };
+
+const styles = StyleSheet.create({
+  signinView: {
+    paddingTop: hp(8),
+    paddingHorizontal: wp(5),
+  },
+  image: {
+    height: hp(20),
+  },
+  title: {
+    fontSize: hp(4),
+  },
+  inputView: {
+    height: hp(7),
+  },
+  iconView: {
+    width: hp(3),
+    alignItems: "center",
+  },
+  inputText: {
+    fontSize: hp(2),
+  },
+  forgotPasswordButton: {
+    color: "#1e3a8a",
+    fontWeight: "bold",
+    paddingVertical: hp(0.6),
+  },
+  loginButton: {
+    height: hp(6.5),
+    backgroundColor: "#1e3a8a",
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textLoginButton: {
+    fontSize: hp(2.7),
+  },
+  textSignup: {
+    fontSize: hp(1.8),
+  },
+});
 
 export default SignIn;

@@ -9,6 +9,7 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
+  StyleSheet,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -61,28 +62,25 @@ const SignUp: React.FC = () => {
     <CustomKeyboardView inChat={false}>
       <StatusBar style="dark" />
       <BackgroundBlob />
-      <View
-        className="flex-1 gap-12"
-        style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }}
-      >
+      <View className="flex-1 gap-12" style={styles.signupView}>
         <View className="items-center">
           <Image
             source={require("../../assets/images/register.png")}
             alt="Login"
-            style={{ height: hp(20) }}
+            style={styles.image}
             resizeMode="contain"
           />
         </View>
         <View className="gap-10">
           <Text
-            style={{ fontSize: hp(4) }}
+            style={styles.title}
             className="font-bold tracking-wider text-center text-indigo-900"
           >
             Registro
           </Text>
           <View className="gap-4">
             <View
-              style={{ height: hp(7) }}
+              style={styles.inputView}
               className="flex-row gap-4 px-4 bg-neutral-100 items-center rounded-2xl"
             >
               <View style={{ width: hp(3), alignItems: "center" }}>
@@ -97,30 +95,30 @@ const SignUp: React.FC = () => {
               />
             </View>
             <View
-              style={{ height: hp(7) }}
+              style={styles.inputView}
               className="flex-row gap-4 px-4 bg-neutral-100 items-center rounded-2xl"
             >
-              <View style={{ width: hp(3), alignItems: "center" }}>
+              <View style={styles.iconView}>
                 <Octicons name="mail" size={hp(2.7)} color="gray" />
               </View>
               <TextInput
                 onChangeText={(value) => (emailRef.current = value)}
-                style={{ fontSize: hp(2) }}
+                style={styles.textInput}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="email@email.com"
                 placeholderTextColor={"gray"}
               />
             </View>
             <View
-              style={{ height: hp(7) }}
+              style={styles.inputView}
               className="flex-row gap-4 px-4 bg-neutral-100 items-center rounded-2xl"
             >
-              <View style={{ width: hp(3), alignItems: "center" }}>
+              <View style={styles.iconView}>
                 <Octicons name="lock" size={hp(2.7)} color="gray" />
               </View>
               <TextInput
                 onChangeText={(value) => (passwordRef.current = value)}
-                style={{ fontSize: hp(2) }}
+                style={styles.textInput}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="Contraseña"
                 secureTextEntry={!isPasswordVisible}
@@ -139,33 +137,26 @@ const SignUp: React.FC = () => {
             <View>
               <TouchableOpacity
                 onPress={handleRegister}
-                style={{
-                  height: hp(6.5),
-                  backgroundColor: "#1e3a8a",
-                  borderRadius: 12,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={styles.signupButton}
               >
                 <Text
-                  style={{ fontSize: hp(2.7) }}
+                  style={styles.signupTextButton}
                   className="font-bold tracking-wider text-white"
                 >
                   Registrar
                 </Text>
               </TouchableOpacity>
             </View>
-
             <View className="flex-row justify-center">
               <Text
-                style={{ fontSize: hp(1.8) }}
+                style={styles.signinTextButton}
                 className="font-semibold text-neutral-500"
               >
                 Ya tengo una cuenta.{" "}
               </Text>
               <Pressable onPress={handleNavigate}>
                 <Text
-                  style={{ fontSize: hp(1.8) }}
+                  style={styles.signinTextButton}
                   className="font-bold text-indigo-900"
                 >
                   Iniciar sesión
@@ -178,5 +169,41 @@ const SignUp: React.FC = () => {
     </CustomKeyboardView>
   );
 };
+
+const styles = StyleSheet.create({
+  signupView: {
+    paddingTop: hp(8),
+    paddingHorizontal: wp(5),
+  },
+  image: {
+    height: hp(20),
+  },
+  title: {
+    fontSize: hp(4),
+  },
+  inputView: {
+    height: hp(7),
+  },
+  iconView: {
+    width: hp(3),
+    alignItems: "center",
+  },
+  textInput: {
+    fontSize: hp(2),
+  },
+  signupButton: {
+    height: hp(6.5),
+    backgroundColor: "#1e3a8a",
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  signupTextButton: {
+    fontSize: hp(2.7),
+  },
+  signinTextButton: {
+    fontSize: hp(1.8),
+  },
+});
 
 export default SignUp;

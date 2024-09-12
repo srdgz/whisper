@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { Slot, useSegments, useRouter } from "expo-router";
 import { useAuth, AuthContextProvider } from "./context/authContext";
 import { MenuProvider } from "react-native-popup-menu";
@@ -25,7 +26,7 @@ const MainLayout: React.FC = () => {
 
 const RootLayout = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.rootView}>
       <MenuProvider>
         <AuthContextProvider>
           <MainLayout />
@@ -34,5 +35,11 @@ const RootLayout = () => {
     </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  rootView: {
+    flex: 1,
+  },
+});
 
 export default RootLayout;

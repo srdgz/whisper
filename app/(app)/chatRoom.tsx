@@ -12,6 +12,7 @@ import {
   Alert,
   ScrollView,
   Keyboard,
+  StyleSheet,
 } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useAuth } from "../context/authContext";
@@ -130,14 +131,14 @@ const ChatRoom: React.FC = () => {
               currentUser={user}
             />
           </View>
-          <View style={{ marginBottom: hp(2.7) }} className="pt-2">
+          <View style={styles.messageView} className="pt-2">
             <View className="flex-row mx-3 justify-between bg-white border border-sky-200 rounded-full p-2 pl-5">
               <TextInput
                 onChangeText={(value) => (textRef.current = value)}
                 ref={inputRef}
                 placeholder="Escribe tu mensaje..."
                 className="flex-1 mr-2"
-                style={{ fontSize: hp(2) }}
+                style={styles.messageInput}
               />
               <TouchableOpacity
                 onPress={handleSendMessage}
@@ -152,5 +153,14 @@ const ChatRoom: React.FC = () => {
     </CustomKeyboardView>
   );
 };
+
+const styles = StyleSheet.create({
+  messageView: {
+    marginBottom: hp(2.7),
+  },
+  messageInput: {
+    fontSize: hp(2),
+  },
+});
 
 export default ChatRoom;

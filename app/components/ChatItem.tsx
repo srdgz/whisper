@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, View, Text, Alert } from "react-native";
+import { TouchableOpacity, View, Text, Alert, StyleSheet } from "react-native";
 import { ChatItemProps, Message } from "../constants/types";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Image } from "expo-image";
@@ -129,7 +129,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
         onPress={openChatRoom}
       >
         <Image
-          style={{ height: hp(6), width: hp(6), borderRadius: 100 }}
+          style={styles.image}
           source={
             item?.profileImage
               ? { uri: item.profileImage }
@@ -141,20 +141,20 @@ const ChatItem: React.FC<ChatItemProps> = ({
         <View className="flex-1 gap-1">
           <View className="flex-row justify-between">
             <Text
-              style={{ fontSize: hp(1.8) }}
+              style={styles.textUsername}
               className="font-semibold text-neutral-700"
             >
               {item?.username}
             </Text>
             <Text
-              style={{ fontSize: hp(1.6) }}
+              style={styles.textMessage}
               className="font-medium text-neutral-500"
             >
               {renderTime()}
             </Text>
           </View>
           <Text
-            style={{ fontSize: hp(1.6) }}
+            style={styles.textMessage}
             className="font-medium text-neutral-500"
           >
             {renderLastMessage()}
@@ -164,5 +164,19 @@ const ChatItem: React.FC<ChatItemProps> = ({
     </Swipeable>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    height: hp(6),
+    width: hp(6),
+    borderRadius: 100,
+  },
+  textUsername: {
+    fontSize: hp(1.8),
+  },
+  textMessage: {
+    fontSize: hp(1.6),
+  },
+});
 
 export default ChatItem;

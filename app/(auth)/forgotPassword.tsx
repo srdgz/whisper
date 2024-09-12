@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import BackgroundBlob from "../components/BackgroundBlob";
+import CustomKeyboardView from "../components/CustomKeyboardView";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
+  StyleSheet,
 } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -15,8 +16,6 @@ import {
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { useRouter } from "expo-router";
-import BackgroundBlob from "../components/BackgroundBlob";
-import CustomKeyboardView from "../components/CustomKeyboardView";
 import { StatusBar } from "expo-status-bar";
 
 const ForgotPassword: React.FC = () => {
@@ -50,70 +49,73 @@ const ForgotPassword: React.FC = () => {
     <CustomKeyboardView inChat={false}>
       <StatusBar style="dark" />
       <BackgroundBlob />
-      <View
-        className="flex-1"
-        style={{ paddingTop: hp(38), paddingHorizontal: wp(4) }}
-      >
-        <Text
-          style={{
-            fontSize: hp(4),
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: hp(4),
-            color: "#1e3a8a",
-          }}
-        >
-          Recuperar Contraseña
-        </Text>
+      <View className="flex-1" style={styles.forgotPasswordView}>
+        <Text style={styles.textTitle}>Recuperar Contraseña</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           placeholder="Introduce tu correo"
           placeholderTextColor="#ffffff"
-          style={{
-            height: hp(7),
-            borderColor: "#ccc",
-            color: "white",
-            borderWidth: 1,
-            borderRadius: 12,
-            paddingHorizontal: wp(4),
-            fontSize: hp(2.2),
-            marginBottom: hp(2),
-          }}
+          style={styles.textInputMail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
         <TouchableOpacity
           onPress={handlePasswordReset}
-          style={{
-            height: hp(6.5),
-            backgroundColor: "#009688",
-            borderRadius: 12,
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: hp(2),
-          }}
+          style={styles.sendButton}
         >
-          <Text
-            style={{ fontSize: hp(2.7), color: "white", fontWeight: "bold" }}
-          >
+          <Text style={styles.textSendButton}>
             Enviar enlace de restablecimiento
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/signIn")}>
-          <Text
-            style={{
-              fontSize: hp(2.2),
-              color: "#1e3a8a",
-              textAlign: "center",
-            }}
-          >
-            Volver a inicio de sesión
-          </Text>
+          <Text style={styles.goBackButton}>Volver a inicio de sesión</Text>
         </TouchableOpacity>
       </View>
     </CustomKeyboardView>
   );
 };
+
+const styles = StyleSheet.create({
+  forgotPasswordView: {
+    paddingTop: hp(38),
+    paddingHorizontal: wp(4),
+  },
+  textTitle: {
+    fontSize: hp(4),
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: hp(4),
+    color: "#1e3a8a",
+  },
+  textInputMail: {
+    height: hp(7),
+    borderColor: "#ccc",
+    color: "white",
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: wp(4),
+    fontSize: hp(2.2),
+    marginBottom: hp(2),
+  },
+  sendButton: {
+    height: hp(6.5),
+    backgroundColor: "#009688",
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: hp(2),
+  },
+  textSendButton: {
+    fontSize: hp(2.7),
+    color: "white",
+    fontWeight: "bold",
+  },
+  goBackButton: {
+    fontSize: hp(2.2),
+    color: "#1e3a8a",
+    textAlign: "center",
+  },
+});
 
 export default ForgotPassword;

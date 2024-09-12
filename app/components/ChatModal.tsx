@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, View, Text, Pressable } from "react-native";
+import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { blurhash } from "../constants/common";
@@ -26,25 +26,14 @@ const ChatModal: React.FC<ChatModalProps> = ({ visible, onClose, user }) => {
           {profileImageURL && (
             <Image
               source={{ uri: profileImageURL }}
-              style={{
-                height: hp(10),
-                aspectRatio: 1,
-                borderRadius: 100,
-                marginBottom: 20,
-              }}
+              style={styles.image}
               placeholder={blurhash}
               transition={500}
               cachePolicy="disk"
             />
           )}
-          <Text
-            style={{ fontSize: hp(3), fontWeight: "bold", marginBottom: 10 }}
-          >
-            {user?.username}
-          </Text>
-          <Text style={{ fontSize: hp(2.2), color: "gray" }}>
-            {user?.email}
-          </Text>
+          <Text style={styles.textUsername}>{user?.username}</Text>
+          <Text style={styles.textEmail}>{user?.email}</Text>
           <View className="bg-white p-4 rounded-lg w-11/12">
             <Pressable
               onPress={onClose}
@@ -58,5 +47,23 @@ const ChatModal: React.FC<ChatModalProps> = ({ visible, onClose, user }) => {
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    height: hp(10),
+    aspectRatio: 1,
+    borderRadius: 100,
+    marginBottom: 20,
+  },
+  textUsername: {
+    fontSize: hp(3),
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  textEmail: {
+    fontSize: hp(2.2),
+    color: "gray",
+  },
+});
 
 export default ChatModal;
