@@ -77,12 +77,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   const renderDeleteButton = () => {
     return (
       <TouchableOpacity
-        style={{
-          backgroundColor: "red",
-          justifyContent: "center",
-          alignItems: "center",
-          width: 80,
-        }}
+        style={styles.deleteButton}
         onPress={() => {
           Alert.alert(
             "Eliminar Chat",
@@ -101,7 +96,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
           );
         }}
       >
-        <Text style={{ color: "white", fontWeight: "bold" }}>Eliminar</Text>
+        <Text style={styles.textDeleteButton}>Eliminar</Text>
       </TouchableOpacity>
     );
   };
@@ -176,6 +171,17 @@ const styles = StyleSheet.create({
   },
   textMessage: {
     fontSize: hp(1.6),
+  },
+  deleteButton: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+    height: 55,
+  },
+  textDeleteButton: {
+    color: "white",
+    fontWeight: "bold",
   },
 });
 
