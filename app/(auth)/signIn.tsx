@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import CustomKeyboardView from "../components/CustomKeyboardView";
 import BackgroundBlob from "../components/BackgroundBlob";
 import {
@@ -24,6 +24,7 @@ const SignIn: React.FC = () => {
   const { login } = useAuth();
   const emailRef = useRef<string>("");
   const passwordRef = useRef<string>("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleLogin = async () => {
     if (!emailRef.current || !passwordRef.current) {
@@ -103,9 +104,18 @@ const SignIn: React.FC = () => {
                   style={{ fontSize: hp(2) }}
                   className="flex-1 font-semibold text-neutral-700"
                   placeholder="contraseña"
-                  secureTextEntry
+                  secureTextEntry={!isPasswordVisible}
                   placeholderTextColor={"gray"}
                 />
+                <TouchableOpacity
+                  onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                >
+                  <Octicons
+                    name={isPasswordVisible ? "eye-closed" : "eye"}
+                    size={hp(3)}
+                    color="gray"
+                  />
+                </TouchableOpacity>
               </View>
               <Text
                 style={{ fontSize: hp(1.8) }}
