@@ -69,6 +69,12 @@ export interface ChatRoomProps {
   router: Router;
 }
 
+export interface ChatModalProps {
+  visible: boolean;
+  onClose: () => void;
+  user: ChatRoomProps["user"];
+}
+
 export interface Message {
   id: string;
   text: string;
