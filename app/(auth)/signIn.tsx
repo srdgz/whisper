@@ -52,6 +52,10 @@ const SignIn: React.FC = () => {
     router.push("/signUp");
   };
 
+  const handleForgotPassword = () => {
+    router.push("/forgotPassword");
+  };
+
   return (
     <CustomKeyboardView inChat={false}>
       <StatusBar style="dark" />
@@ -117,12 +121,17 @@ const SignIn: React.FC = () => {
                   />
                 </TouchableOpacity>
               </View>
-              <Text
-                style={{ fontSize: hp(1.8) }}
-                className="font-semibold text-right text-neutral-500"
-              >
-                ¿Olvidaste tu contraseña?
-              </Text>
+              <TouchableOpacity onPress={handleForgotPassword}>
+                <Text
+                  style={{
+                    color: "#1e3a8a",
+                    fontWeight: "bold",
+                    paddingVertical: hp(0.6),
+                  }}
+                >
+                  ¿Olvidaste tu contraseña?
+                </Text>
+              </TouchableOpacity>
             </View>
             <View>
               <TouchableOpacity
